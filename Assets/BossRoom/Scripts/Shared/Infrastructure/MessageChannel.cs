@@ -14,6 +14,14 @@ namespace BossRoom.Scripts.Shared.Infrastructure
         IDisposable Subscribe(Action<T> handler);
     }
 
+    public static class MessageChannelDIExtenstions
+    {
+        public static void BindMessageChannel<TMessage>(this DIScope scope)
+        {
+            scope.BindAsSingle< MessageChannel<TMessage>, IPublisher<TMessage>, ISubscriber<TMessage>>();
+        }
+    }
+
     public class MessageChannel<T> : IDisposable, IPublisher<T>, ISubscriber<T>
     {
         readonly Queue<Action> m_PendingHandlers = new Queue<Action>();
